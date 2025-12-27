@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Image Caption Generator</title>
+
+<style>
+    #container1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 25px;
+}
+
+.cards-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* Adjust gap between cards */
+  width: 100%; /* Ensure the cards span full width */
+}
+
+.card {
+  flex: 1;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+  </style>
+</head>
+
+<body>
+    <!-- header section start -->
+  <header id="header" class="section">
+    <div class="container">
+      <div class="navbar_container flex items-center justify-between gap-2">
+        <div class="navbar_logo flex items-center justify-center">
+          <img src="/static/images/th.jpeg" alt="logo" />
+        </div>
+        <div class="navbar_left flex items-center justify-between flex-1">
+            <div class="navbar_left_items">
+              <ul class="flex items-center">
+                <li style="color:black;"><a href="/templates/index.html"><b style="font-size:large; padding: 10px;">Home</b></a></li>
+                <li style="color:black;"><a href="/templates/about_us.html"><b style="font-size:large; padding: 10px;">About us</b></a></li>
+                <li style="color:black;"><a href="#"><b style="font-size:large; padding: 10px;">Resources</b></a></li>
+              </ul>
+          </div>
+          <!-- <div class="navbar_right flex items-center">
+            <ul class="flex items-center">
+              <li><a href="#">Login</a></li>
+              <li><a href="#" class="btn-primary ml-2"> Sign Up </a></li>
+            </ul>
+          </div> -->
+        </div>
+        <div class="navbar_menu flex items-center justify-center">
+          <ion-icon class="menu" size="large" name="menu-outline"></ion-icon>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- hero section start-->
+  <section id="hero" class="section">
+    <div class="container">
+      <div class="hero_section flex items-center justify-between">
+        <div class="hero_section_left">
+          <h1>Image Caption Generator</h1>
+          <p style="color:#e25c85;">
+            Turn Moments into Words: Generate Captions in Seconds
+          </p>
+         <a href="#advanced_section"> <button type="button" class="btn-primary">Get Started</button></a>
+        </div>
+        <img src="/static/images/606eccc4e74349690b2ff304_Wy31xs9VqBdoK66a7e8BojXdwrnFNYk5SN35CaIdRBOjgUoRit81WQ0UkyE8XhgKdtFLEtBm7gb5CJe2CnWPvSZcfdtzTrnZX3_7uLnXZedckZjLEkfrK9oJTFAT6eqjtuYcddgc.png">
+      </div>
+    </div>
+  </section>
+  <br><br>
+<!-- search section start -->
+<!---other section-->
+<section id="advanced_section" class="section" style="background-color: #f4f6f9; padding: 40px 0; width: 100%;">
+  <div class="container-fluid" style="max-width: 100%; padding: 0 10%; background-color: #fff; padding-top: 30px; padding-bottom: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+    <div class="image_box text-center">
+      <h2 style="color: #333; font-weight: 700; margin-bottom: 20px;">Getting Started</h2>
+      <ol class="list-group list-group-numbered" style="text-align: left; font-size: 18px;">
+        <li class="list-group-item" style="padding: 10px; background-color: #f8f9fa; border: none;">Upload your image</li>
+        <li class="list-group-item" style="padding: 10px; background-color: #f8f9fa; border: none;">Click 'Generate Caption'</li>
+        <li class="list-group-item" style="padding: 10px; background-color: #f8f9fa; border: none;">Copy your favorite caption</li>
+      </ol>
+      <br><br>
+
+      <h1 style="color: #333; font-weight: 700;">Upload an Image</h1>
+      <br>
+      <form action="/generate_caption" method="POST" enctype="multipart/form-data" style="text-align: center;">
+        <input type="file" name="file" required class="btn btn-outline-primary" style="margin-bottom: 20px;">
+        <br>
+        <input type="submit" value="Generate Caption" class="btn btn-primary" style="padding: 10px 20px; font-size: 18px;">
+        <input type="hidden" name="scrollTo" value="output_section"> <!-- Hidden input to scroll directly -->
+      </form>
+      <br><br>
+
+      <!-- Output Section -->
+      {% if caption %}
+      <a id="output_section"></a> <!-- Anchor for scrolling to the output section -->
+      <h2 style="color: #333; font-weight: 700;">Uploaded Image:</h2>
+      <br>
+      <img src="{{ image_url }}" alt="Uploaded Image" style="max-width: 500px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+      <br><br>
+
+      <!-- Enhanced Caption Output Section -->
+      <h2 style="color: #333; font-weight: 700;">Generated Caption:</h2>
+      <br>
+      <div class="caption-box" style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; max-width: 600px; margin: 0 auto; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); position: relative;">
+        <p id="generated_caption" style="font-size: 20px; color: #333; font-weight: 500; font-style: italic;">
+          "{{ caption }}"
+        </p>
+        <hr>
+        <button onclick="copyToClipboard()" class="btn btn-success copy-btn" style="position: relative; ">Copy</button>
+      </div>
+      <br>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Custom styles for the section */
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #eef1f7;
+    margin: 0;
+    padding: 0;
+  }
+
+  h2, h1 {
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .btn-primary {
+    background-color: #4CAF50;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background-color: #45a049;
+  }
+
+  .list-group-item {
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+
+  .list-group-item:hover {
+    background-color: #e9ecef;
+  }
+
+  .container-fluid {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  /* Caption Box Styling */
+  .caption-box {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+  }
+
+  .caption-box p {
+    color: #333;
+    font-size: 20px;
+    font-weight: 500;
+    font-style: italic;
+    text-align: center;
+    margin: 0;
+  }
+
+  /* Copy Button */
+  .copy-btn {
+    background-color: #28a745;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+
+  .copy-btn:hover {
+    background-color: #218838;
+  }
+</style>
+
+
+
+
+<script>
+  // Directly scroll to the output section when the page reloads if there's a caption
+  window.onload = function() {
+    const scrollTo = '{{ request.form["scrollTo"] }}';
+    if (scrollTo && scrollTo === 'output_section') {
+      document.getElementById('output_section').scrollIntoView({ behavior: 'auto' });
+    }
+  };
+
+
+  // Function to copy the generated caption to the clipboard
+  function copyToClipboard() {
+    const captionText = document.getElementById('generated_caption').innerText;
+    const tempInput = document.createElement('input');
+    tempInput.value = captionText;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+    alert('Caption copied to clipboard!');
+  }
+</script>
+
+
+<div id="container1">
+    <div class="advanced">
+      <br>
+      <h1>Smart Caption Generator</h1>
+      <br>
+      <p>
+        Effortlessly create captivating captions for your images with our AI-powered generator.
+        Simply upload an image, and watch as it transforms into engaging and contextually relevant text.
+      </p>
+      <br>
+    </div>
+  
+    <div class="cards-container">
+      <div class="card">
+        <div class="card-body">
+          <h1>Image Captioning Redefined</h1>
+          <p>
+            Elevate your visual content with our intelligent image captioning tool.
+            Generate meaningful and engaging captions instantly, enhancing your image's impact and reaching your audience more effectively.
+          </p>
+        </div>
+      </div>
+      
+      <div class="card" id="card-id">
+        <div class="card-body">
+          <h1>Comprehensive Insights</h1>
+          <p>
+            Uncover detailed information about your image interactions. Our advanced captioning tool provides insights into engagement patterns, helping you make data-driven decisions to optimize your content strategy.
+          </p>
+        </div>
+      </div>
+  
+      <div class="card">
+        <div class="card-body">
+          <h1>Personalized Caption Customization</h1>
+          <p>
+            Create Impactful Captions in One Click
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+      </section>
+  </section>
+  <!-- boost section  -->
+  <section id="boost" class="section">
+    <div class="container">
+      <h1>Boost your Image caption </h1>
+      <a href="#advanced_section"><button class="btn-primary" type="button">Get Started</button></a>
+    </div>
+  </section>
+
+  <!-- footer section  -->
+  <footer id="footer" class="section">
+    <div class="container">
+      <div class="footer_container flex gap-2 justify-between">
+        <div class="footer_logo">
+          <img src="/static/images/th.jpeg" alt="logo" />
+        </div>
+        <div class="footer_right flex justify-between">
+          <ul>
+            <li><a class="footer_header" href="#">Features</a></li>
+            <li><a href="#">Caption Generator</a></li>
+            <li><a href="#">Branded Captions</a></li>
+            <li><a href="#">Analytics</a></li>
+          </ul>
+          <ul>
+            <li><a class="footer_header" href="#">Resources</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Developers</a></li>
+            <li><a href="#">Support</a></li>
+          </ul>
+          <ul>
+            <li><a class="footer_header" href="#">Company</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Our Team</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+          <div class="footer_icons flex">
+            <a href="#" rel="noopener" title="share-link"><ion-icon class="facebook_logo logo" name="logo-facebook"></ion-icon></a>
+            <a href="#" rel="noopener" title="share-link"><ion-icon class="twitter_logo logo" name="logo-twitter"></ion-icon></a>
+            <a href="#" rel="noopener" title="share-link"><ion-icon class="pinterest_logo logo" name="logo-pinterest"></ion-icon></a>
+            <a href="#" rel="noopener" title="share-link"><ion-icon class="instagram_logo logo" name="logo-instagram"></ion-icon></a>
+          </div>
+        </div>
+      </div>
+  </footer>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
